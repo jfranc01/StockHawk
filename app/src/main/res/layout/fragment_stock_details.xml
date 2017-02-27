@@ -1,20 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_stock_details"
+<ScrollView android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.udacity.stockhawk.StockDetailsFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/line_chart"
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.github.mikephil.charting.charts.LineChart>
 
 
-</RelativeLayout>
+        <!--<FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">-->
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/line_chart"
+                android:layout_width="match_parent"
+                android:layout_height="300dp">
+            </com.github.mikephil.charting.charts.LineChart>
+
+        <!--</FrameLayout>-->
+
+        <!--<FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">-->
+
+                <android.support.v7.widget.GridLayout
+                    app:columnCount="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView android:id="@+id/symbol"
+                        android:text="@string/detail_symbol"
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1"
+                        />
+                    <TextView android:id="@+id/symbolValue"
+                        tools:text="IBM"
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1"
+                        />
+                    <TextView android:id="@+id/price"
+                        android:text="@string/price"
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1"
+                        />
+
+                    <TextView android:id="@+id/priceValue"
+                        tools:text="Price"
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1"
+                        />
+
+                    <TextView android:id="@+id/percentage_change"
+                        android:text="@string/percentage_change"
+                        tools:text="Percentage change"
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1"
+                        />
+
+                    <TextView android:id="@+id/percentageChangeValue"
+                        tools:text=".09%"
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1"
+                        />
+
+                    <TextView android:id="@+id/absolute_change"
+                        android:text="@string/absolute_change"
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1"
+                        />
+
+                    <TextView android:id="@+id/absolutechangeValue"
+                        tools:text="5.5"
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1"
+                        />
+
+                </android.support.v7.widget.GridLayout>
+
+        <!--</FrameLayout>-->
+
+    </LinearLayout>
+
+</ScrollView>

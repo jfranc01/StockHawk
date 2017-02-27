@@ -11,9 +11,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -33,6 +36,10 @@ public class StockDetailsFragment extends Fragment {
     private Uri mUri;
     private String LOG_TAG = this.getClass().getSimpleName();
     private LineChart mLineChart;
+    private TextView mSymbolTextView;
+    private TextView mPriceTextView;
+    private TextView mAbsoluteChangeTextView;
+    private TextView mPercentgeChangeTextView;
     //create a projection for the columns
     public static final String[] STOCK_DETAIL_COLUMNS = {
             Contract.Quote.COLUMN_SYMBOL,
@@ -56,6 +63,17 @@ public class StockDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         //retrieve the arguments that were passed into the fragement
         View rootView = inflater.inflate(R.layout.fragment_stock_details, container, false);
+
+        //find the symbol text view
+        mSymbolTextView = (TextView)rootView.findViewById(R.id.symbolValue);
+        //find the percentage change text view
+        mPercentgeChangeTextView = (TextView)rootView.findViewById(R.id.percentageChangeValue);
+        //find the absolute change text view
+        mAbsoluteChangeTextView = (TextView)rootView.findViewById(R.id.absolutechangeValue);
+        //find the price text view
+        mPriceTextView = (TextView)rootView.findViewById(R.id.priceValue);
+
+
         //find the line chart
         mLineChart = (LineChart) rootView.findViewById(R.id.line_chart);
         //get the arguments
@@ -81,30 +99,76 @@ public class StockDetailsFragment extends Fragment {
 
             //get the history string
             String history = data.getString(COLUMN_HISTORY);
+            //get the symbol
+            String symbol = data.getString(COLUMN_SYMBOL);
+            //String symbol = data.getString();
+            //get the price
+            String price = data.getString(COLUMN_PRICE);
+            //get the % change
+            String percentage_change = data.getString(COLUMN_PERCENTAGE_CHANGE);
+            //get the absolute change
+            String absolute_change = data.getString(COLUMN_ABSOLUTE_CHANGE);
             Log.i(LOG_TAG, "History: " + history);
 
             //we need to send this history data to be parsed to create a list
             //of entry objects
             List entries = processHistory(history);
-            LineDataSet trend = new LineDataSet(entries, "Trend");
-            trend.setColor(Color.GREEN);
-            trend.setAxisDependency(YAxis.AxisDependency.RIGHT);
-            LineData lineData = new LineData(trend);
-            mLineChart.setData(lineData);
-            mLineChart.invalidate();
+            plotChart(entries);
+            setDetailsValues(symbol, price, percentage_change, absolute_change);
+
         }
 
         return rootView;
     }
 
+    /**
+     * Method that process the data points and creates a list of
+     * entry objects
+     * @param history
+     * @return
+     */
     private List<Entry> processHistory(String history){
         List<Entry> entries = new ArrayList<Entry>();
         String lines[] = history.split("\\r?\\n");
         for(int i=0;i<lines.length;i++){
             String values[] = lines[i].split(",");
-            Entry entry = new Entry(Float.parseFloat(values[1]), Float.parseFloat(values[1]));
+            Entry entry = new Entry(Float.parseFloat(String.valueOf(i)), Float.parseFloat(values[1]));
             entries.add(entry);
         }
         return entries;
+    }
+
+    private void plotChart(List entries){
+        LineDataSet trend = new LineDataSet(entries, "Trend for the last 12 months");
+        //set the color of the trend line
+        trend.setColor(Color.LTGRAY);
+        //set the x axis to depend on the left side of the Y axis
+        trend.setAxisDependency(YAxis.AxisDependency.LEFT);
+        //get a handle to the right side
+        YAxis yAxisRight = mLineChart.getAxisRight();
+        //get a handle on the left side
+        YAxis yAxisLeft = mLineChart.getAxisLeft();
+        //remove the right side
+        yAxisRight.setEnabled(false);
+        XAxis xAxis = mLineChart.getXAxis();
+        xAxis.setAxisLineColor(Color.RED);
+        //move the x axis to the bottom of the scren
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setAxisMinimum(0f);
+        //set the line data
+        LineData lineData = new LineData(trend);
+        //set the background
+        mLineChart.setBackgroundColor(Color.WHITE);
+        //set the data
+        mLineChart.setData(lineData);
+        //draw the chart
+        mLineChart.invalidate();
+    }
+
+    private void setDetailsValues(String symbol, String price, String percentage_change, String absolute_change){
+        mSymbolTextView.setText(symbol);
+        mPriceTextView.setText(price);
+        mPercentgeChangeTextView.setText(percentage_change);
+        mAbsoluteChangeTextView.setText(absolute_change);
     }
 }

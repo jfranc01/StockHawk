@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
+import com.udacity.stockhawk.ui.MainActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -35,4 +35,9 @@
     <string name="title_activity_stock_details">StockDetails</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Detail Laebls -->
+    <string name="detail_symbol">Symbol</string>
+    <string name="absolute_change">Absolute Change</string>
+    <string name="percentage_change">Percentage Change</string>
+    <string name="price">Price</string>
 </resources>
