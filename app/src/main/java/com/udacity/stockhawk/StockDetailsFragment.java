@@ -158,8 +158,10 @@ public class StockDetailsFragment extends Fragment {
 
     private void plotChart(List entries){
         LineDataSet trend = new LineDataSet(entries, "Trend for the last 12 months");
+        trend.setCircleColor(Color.GRAY);
+        trend.setCircleColorHole(Color.GRAY);
         //set the color of the trend line
-        trend.setColor(Color.LTGRAY);
+        trend.setColor(Color.BLUE);
         //set the x axis to depend on the left side of the Y axis
         trend.setAxisDependency(YAxis.AxisDependency.LEFT);
         //get a handle to the right side
@@ -170,6 +172,10 @@ public class StockDetailsFragment extends Fragment {
         yAxisRight.setEnabled(false);
         yAxisLeft.setEnabled(true);
         XAxis xAxis = mLineChart.getXAxis();
+        xAxis.setAxisLineWidth(2f);
+        yAxisLeft.setAxisLineWidth(2f);
+        xAxis.setGridLineWidth(1.5f);
+        yAxisLeft.setGridLineWidth(1.5f);
         //Created a formatter for the values
         IAxisValueFormatter axisValueFormatter = new IAxisValueFormatter() {
             @Override
@@ -181,18 +187,28 @@ public class StockDetailsFragment extends Fragment {
         //move the x axis to the bottom of the scren
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         Description description = new Description();
-        description.setText("Year");
+        description.setText("Date");
         mLineChart.setDescription(description);
         //set the line data
         LineData lineData = new LineData(trend);
+        lineData.setValueTextColor(Color.BLACK);
         //set the background
         mLineChart.setBackgroundColor(Color.WHITE);
         //set the data
         mLineChart.setData(lineData);
+        //diable scrolling
+        mLineChart.disableScroll();
         //draw the chart
         mLineChart.invalidate();
     }
 
+    /**
+     * Method that sets the TextView values
+     * @param symbol
+     * @param price
+     * @param percentage_change
+     * @param absolute_change
+     */
     private void setDetailsValues(String symbol, String price, String percentage_change, String absolute_change){
         mSymbolTextView.setText(symbol);
         mPriceTextView.setText(price);
