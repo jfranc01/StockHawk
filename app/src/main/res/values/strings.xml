@@ -40,4 +40,7 @@
     <string name="absolute_change">Absolute Change</string>
     <string name="percentage_change">Percentage Change</string>
     <string name="price">Price</string>
+
+    <string name="fab_content_description">Add a stock </string>
+    <string name="line_chart_content_description">XY Plot that represents the stock price over time</string>
 </resources>

@@ -22,6 +22,7 @@
             android:layout_weight="1">
 
             <com.github.mikephil.charting.charts.LineChart
+                android:contentDescription="@string/line_chart_content_description"
                 android:scrollbars="none"
                 android:id="@+id/line_chart"
                 android:layout_width="match_parent"
@@ -116,7 +117,6 @@
             </android.support.v7.widget.GridLayout>
 
         </FrameLayout>
-
 
     </LinearLayout>
 
