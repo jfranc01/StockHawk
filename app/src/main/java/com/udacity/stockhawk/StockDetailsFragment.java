@@ -15,17 +15,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.udacity.stockhawk.data.Contract;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import butterknife.BindView;
 import timber.log.Timber;
 
 /**
@@ -40,6 +45,8 @@ public class StockDetailsFragment extends Fragment {
     private TextView mPriceTextView;
     private TextView mAbsoluteChangeTextView;
     private TextView mPercentgeChangeTextView;
+    private String[] dates;
+    SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yy");
     //create a projection for the columns
     public static final String[] STOCK_DETAIL_COLUMNS = {
             Contract.Quote.COLUMN_SYMBOL,
@@ -130,12 +137,23 @@ public class StockDetailsFragment extends Fragment {
     private List<Entry> processHistory(String history){
         List<Entry> entries = new ArrayList<Entry>();
         String lines[] = history.split("\\r?\\n");
-        for(int i=0;i<lines.length;i++){
+        dates = new String[lines.length];
+        float index = 0f;
+        for(int i=lines.length-1;i>0;i--){
             String values[] = lines[i].split(",");
-            Entry entry = new Entry(Float.parseFloat(String.valueOf(i)), Float.parseFloat(values[1]));
+            Entry entry = new Entry(index, Float.parseFloat(values[1]));
             entries.add(entry);
+            //save all the dates in an array of string;
+            dates[(int)index] = formaDate(values[0]);
+            index++;
         }
         return entries;
+    }
+
+    private String formaDate(String value) {
+        Long dateValue = Long.parseLong(value);
+        String dateText = dateFormatter.format(new Date(dateValue));
+        return dateText;
     }
 
     private void plotChart(List entries){
@@ -150,11 +168,21 @@ public class StockDetailsFragment extends Fragment {
         YAxis yAxisLeft = mLineChart.getAxisLeft();
         //remove the right side
         yAxisRight.setEnabled(false);
+        yAxisLeft.setEnabled(true);
         XAxis xAxis = mLineChart.getXAxis();
         xAxis.setAxisLineColor(Color.RED);
+        IAxisValueFormatter axisValueFormatter = new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return dates[(int)value];
+            }
+        };
+        xAxis.setValueFormatter(axisValueFormatter);
         //move the x axis to the bottom of the scren
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setAxisMinimum(0f);
+        Description description = new Description();
+        description.setText("Year");
+        mLineChart.setDescription(description);
         //set the line data
         LineData lineData = new LineData(trend);
         //set the background
