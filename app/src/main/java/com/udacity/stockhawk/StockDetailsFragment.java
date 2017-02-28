@@ -170,7 +170,7 @@ public class StockDetailsFragment extends Fragment {
         yAxisRight.setEnabled(false);
         yAxisLeft.setEnabled(true);
         XAxis xAxis = mLineChart.getXAxis();
-        xAxis.setAxisLineColor(Color.RED);
+        //Created a formatter for the values
         IAxisValueFormatter axisValueFormatter = new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
