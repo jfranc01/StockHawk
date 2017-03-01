@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //when an item is clicked, we need to see whether the layout is two pane or one pane
         //and then initiate the starting activity appropriately
 
-        if(mTwoPane = true){
+        if(mTwoPane == true){
             //create an Arguments bundle
             Bundle arguments = new Bundle();
             //prepare the arguements
