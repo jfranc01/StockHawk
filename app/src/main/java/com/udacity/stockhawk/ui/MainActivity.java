@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.StockDetails;
+import com.udacity.stockhawk.StockDetailsFragment;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
 import com.udacity.stockhawk.sync.QuoteSyncJob;
@@ -45,16 +46,39 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.error)
     TextView error;
     private StockAdapter adapter;
+    public static boolean mTwoPane = false; //variable to check whether it is 2 pane mode
 
     @Override
     public void onClick(String symbol) {
         Timber.d("Symbol clicked: %s", symbol);
-        //create an intent
-        Intent stockDetail = new Intent(this, StockDetails.class);
-        //set the data uri to fetch the details for the chosen stock
-        stockDetail.setData(Contract.Quote.makeUriForStock(symbol));
-        //start the intent
-        startActivity(stockDetail);
+
+        //when an item is clicked, we need to see whether the layout is two pane or one pane
+        //and then initiate the starting activity appropriately
+
+        if(mTwoPane = true){
+            //create an Arguments bundle
+            Bundle arguments = new Bundle();
+            //prepare the arguements
+            arguments.putParcelable(StockDetails.URI_ARGUMENT,
+                    Contract.Quote.makeUriForStock(symbol));
+            //create an instance of the details fragment
+            StockDetailsFragment sdf = new StockDetailsFragment();
+            //set the arguements
+            sdf.setArguments(arguments);
+            //call the fragment manager and replace the contents of the fragement
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.graph_detail_container, sdf)
+                    .commit();
+
+        }else{
+            //create an intent
+            Intent stockDetail = new Intent(this, StockDetails.class);
+            //set the data uri to fetch the details for the chosen stock
+            stockDetail.setData(Contract.Quote.makeUriForStock(symbol));
+            //start the intent
+            startActivity(stockDetail);
+        }
+
     }
 
     @Override
@@ -89,7 +113,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         }).attachToRecyclerView(stockRecyclerView);
 
-
+        //check if the detail conteainer is part of the layout. This is how we know its 2 pane
+        if(findViewById(R.id.graph_detail_container) != null){
+            mTwoPane = true;
+            if(savedInstanceState == null){
+                //replace the container with the fragment
+                getFragmentManager().beginTransaction().replace(R.id.graph_detail_container,
+                        new StockDetailsFragment()).commit();
+            }
+        } else{
+            mTwoPane = false;
+        }
     }
 
     private boolean networkUp() {

@@ -92,14 +92,16 @@ public class StockDetailsFragment extends Fragment {
         else{
             Timber.d("Not Arguments Received");
         }
-
-        //use the content resolver to retrieve the data
-        Cursor data = getActivity().getContentResolver().query(
-                mUri,
-                STOCK_DETAIL_COLUMNS,
-                null,
-                null,
-                null);
+        Cursor data = null;
+        if(mUri != null ) {
+            //use the content resolver to retrieve the data
+           data = getActivity().getContentResolver().query(
+                    mUri,
+                    STOCK_DETAIL_COLUMNS,
+                    null,
+                    null,
+                    null);
+        }
 
         //check if the data is not null
         if(data != null && data.moveToFirst()) {

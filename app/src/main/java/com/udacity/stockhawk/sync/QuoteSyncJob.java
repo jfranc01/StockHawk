@@ -115,7 +115,7 @@ public final class QuoteSyncJob {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            String message = context.getString(R.string.invalid_stock);
+                            String message = context.getString(R.string.error_invalid_stock);
                             Toast.makeText(context.getApplicationContext(),
                                     message, Toast.LENGTH_SHORT).show();
                         }

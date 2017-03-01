@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.udacity.stockhawk.R;
 
@@ -68,7 +69,13 @@ public class AddStockDialog extends DialogFragment {
     private void addStock() {
         Activity parent = getActivity();
         if (parent instanceof MainActivity) {
-            ((MainActivity) parent).addStock(stock.getText().toString());
+            String inputSymbol = stock.getText().toString();
+            //errror handling when an empty symbol is provided for the string
+            if(inputSymbol == null || inputSymbol.isEmpty()){
+                Toast.makeText(getActivity(),
+                        getString(R.string.error_no_symbol), Toast.LENGTH_SHORT).show();
+            }
+            ((MainActivity) parent).addStock(inputSymbol);
         }
         dismissAllowingStateLoss();
     }
