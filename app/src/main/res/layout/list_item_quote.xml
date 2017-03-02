@@ -5,10 +5,10 @@
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingLeft="@dimen/tab_activity_horizontal_margin"
-    android:paddingStart="@dimen/tab_activity_horizontal_margin"
-    android:paddingEnd="@dimen/tab_activity_horizontal_margin"
-    android:paddingRight="@dimen/tab_activity_horizontal_margin">
+    android:paddingLeft="16dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingRight="16dp">
 
     <TextView
         android:id="@+id/symbol"
