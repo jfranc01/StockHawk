@@ -44,4 +44,5 @@
 
     <string name="fab_content_description">Add a stock </string>
     <string name="line_chart_content_description">XY Plot that represents the stock price over time</string>
+    <string name="empty_view_text">No stocks added</string>
 </resources>

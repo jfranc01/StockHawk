@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="@dimen/widget_margin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/widget"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#bbDEDFDE"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/hawk_logo"
+                android:id="@+id/hawk_logo"
+                android:gravity="center_vertical"
+                android:layout_width="32dp"
+                android:layout_height="32dp" />
+
+            <TextView
+                android:paddingTop="3dp"
+                android:textSize="20dp"
+                android:paddingLeft="3dp"
+                android:text="@string/app_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/widget_list_view"
+            android:background="#aaDEDFDE"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:text="@string/empty_view_text"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
+</FrameLayout>

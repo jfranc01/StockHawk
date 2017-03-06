@@ -39,13 +39,29 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <activity
-            android:name=".StockDetails"
+            android:name=".ui.StockDetails"
             android:label="@string/title_activity_stock_details"
             android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.udacity.stockhawk.ui.MainActivity" />
         </activity>
+
+        <!-- Declare the widget provider-->
+        <receiver android:name=".widget.StockWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE">
+                </action>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/stock_appwidget_info">
+            </meta-data>
+        </receiver>
+        <!-- RemoteViewService -->
+        <service android:name=".widget.StockRemoteViewService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
     </application>
 
 </manifest>
